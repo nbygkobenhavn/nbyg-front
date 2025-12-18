@@ -18,7 +18,7 @@ export const faq = [
     },
     {
         question: "Giver I garanti på arbejdet?",
-        answer: "Ja, vi giver garanti fra 2 år på alt tømrer- og byggearbejde. For større projekter – som for eksempel tag eller terrasse – tilbyder vi garanti fra 5 år, så du kan føle dig tryg i mange år frem.",
+        answer: "Ja, vi giver 2 års garanti på alt tømrer- og byggearbejde. For større projekter – som for eksempel tag eller terrasse – tilbyder vi garanti fra 5 år, så du kan føle dig tryg i mange år frem.",
     },
     {
         question: "Hjælper I med loftisolering og energioptimering?",

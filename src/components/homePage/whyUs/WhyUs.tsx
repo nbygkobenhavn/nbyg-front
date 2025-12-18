@@ -220,7 +220,7 @@ export default function WhyUs() {
                                     })}
                                     className="font-find-sans-pro text-[18px] lg:text-[24px] leading-[120%] uppercase mb-[22px]"
                                 >
-                                    Hurtinhed
+                                    HURTIGHED
                                 </motion.h3>
                                 <motion.p
                                     initial="hidden"
@@ -233,14 +233,7 @@ export default function WhyUs() {
                                     })}
                                     className="text-[14px] font-light leading-[120%]"
                                 >
-                                    TotalHos Nbyg behøver du ikke vente i
-                                    månedsvis på at få den ønskede service. Vi
-                                    forstår, hvor vigtigt det er for vores
-                                    kunder at få deres projekter færdige til
-                                    tiden. Derfor arbejder vi effektivt og
-                                    målrettet for at sikre rettidig udførelse af
-                                    arbejdet uden at gå på kompromis med
-                                    kvaliteten renovering af Hus
+                                    Hos Nbyg behøver du ikke vente i månedsvis på at få den ønskede service. Vi forstår, hvor vigtigt det er for vores kunder at få deres projekter færdige til tiden. Derfor arbejder vi effektivt og målrettet for at sikre rettidig udførelse af arbejdet – uden at gå på kompromis med kvaliteten.
                                 </motion.p>
                             </div>
                             <motion.div
