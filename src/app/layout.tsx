@@ -10,6 +10,7 @@ import { fetchSanityData } from "@/utils/fetchSanityData";
 import { ALL_DYNAMIC_PAGES_QUERY } from "@/lib/queries";
 import { DynamicPage } from "@/types/dynamicPage";
 import Script from "next/script";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const geistSans = Montserrat({
   variable: "--font-montserrat",
@@ -32,6 +33,8 @@ const findSans = localFont({
   fallback: ["Arial", "sans-serif"],
 });
 
+const GTM_ID = "GTM-M73H8QJZ";
+
 export async function generateMetadata() {
   return getDefaultMetadata("/");
 }
@@ -48,6 +51,7 @@ export default async function RootLayout({
   return (
     <html lang="da" className="scroll-smooth">
       <head>
+        <GoogleTagManager gtmId={GTM_ID} />
         <Script
           id="cookieyes"
           strategy="afterInteractive"
