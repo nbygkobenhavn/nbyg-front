@@ -39,7 +39,7 @@ Sitemap: ${baseUrl}/sitemap.xml
   return new NextResponse(robotsTxt, {
     status: 200,
     headers: {
-      "Content-Type": "text/plain",
+      "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "public, s-maxage=86400, stale-while-revalidate",
     },
   });
