@@ -106,15 +106,6 @@ function formatDate(date: string): string {
   return new Date(date).toISOString();
 }
 
-function escapeXml(unsafe: string): string {
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
 function generateSitemapXml(urls: SitemapUrl[]): string {
   // Нормалізуємо SITE_URL - прибираємо trailing slash
   const baseUrl = SITE_URL.replace(/\/+$/, "");
@@ -126,7 +117,7 @@ function generateSitemapXml(urls: SitemapUrl[]): string {
       const fullUrl = `${baseUrl}${normalizedLoc}`;
 
       return `  <url>
-    <loc>${escapeXml(fullUrl)}</loc>
+    <loc>${fullUrl}</loc>
     <lastmod>${formatDate(url.lastmod)}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
@@ -212,7 +203,7 @@ export async function GET() {
     return new NextResponse(xml, {
       status: 200,
       headers: {
-        "Content-Type": "application/xml",
+        "Content-Type": "application/xml; charset=utf-8",
         "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
       },
     });
