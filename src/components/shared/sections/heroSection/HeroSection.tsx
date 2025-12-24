@@ -1,5 +1,5 @@
 import * as motion from "motion/react-client";
-import { fadeInAnimation, headerVariants } from "@/utils/animationVariants";
+import { fadeInAnimation, fadeInAnimationSafe, headerVariants } from "@/utils/animationVariants";
 import type { HeroSection as HeroSectionData } from "@/types/page";
 import Container from "../../container/Container";
 import PageTitle from "../../titles/PageTitle";
@@ -93,7 +93,7 @@ const HeroSection = (_props: HeroSectionProps) => {
             whileInView="visible"
             exit="exit"
             viewport={{ once: true, amount: 0.3 }}
-            variants={fadeInAnimation({ scale: 0.85, y: 50, delay: 0.8 })}
+            variants={fadeInAnimationSafe({ scale: 0.85, y: 50, delay: 0.8 })}
             className="flex flex-col sm:flex-row gap-3 sm:gap-[30px] sm:w-fit"
           >
             {showDiscussButton && (
