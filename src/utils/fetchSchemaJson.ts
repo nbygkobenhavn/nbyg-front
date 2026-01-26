@@ -16,7 +16,33 @@ export async function fetchSchemaJson(
       return null;
     }
 
-    const json = await response.json();
+    // Перевіряємо Content-Type, щоб переконатися, що це JSON
+    const contentType = response.headers.get("content-type");
+    if (
+      contentType &&
+      !contentType.includes("application/json") &&
+      !contentType.includes("text/json")
+    ) {
+      console.warn(
+        `Expected JSON but got ${contentType} from ${url}. Skipping.`
+      );
+      return null;
+    }
+
+    // Спочатку отримуємо текст, щоб перевірити, чи це дійсно JSON
+    const text = await response.text();
+    
+    // Перевіряємо, чи текст починається з '{' або '[' (валідний JSON)
+    const trimmedText = text.trim();
+    if (!trimmedText.startsWith("{") && !trimmedText.startsWith("[")) {
+      console.warn(
+        `Response from ${url} doesn't appear to be JSON. Skipping.`
+      );
+      return null;
+    }
+
+    // Парсимо JSON
+    const json = JSON.parse(trimmedText);
     return json;
   } catch (error) {
     console.error("Failed to fetch schema JSON:", error);
