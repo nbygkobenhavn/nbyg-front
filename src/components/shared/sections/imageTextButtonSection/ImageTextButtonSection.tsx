@@ -26,8 +26,10 @@ const ImageTextButtonSection = (_props: ImageTextButtonSectionProps) => {
     buttonText,
     buttonStyle,
     buttonSlug,
+    buttonUrl,
     uniqueKey,
   } = _props;
+  const buttonHref = buttonUrl || buttonSlug;
 
   return (
     <section
@@ -77,7 +79,7 @@ const ImageTextButtonSection = (_props: ImageTextButtonSectionProps) => {
                 uniqueKey={uniqueKey}
                 className="hidden md:flex"
               />
-              {buttonText && buttonSlug ? (
+              {buttonText && buttonHref ? (
                 <motion.div
                   key={`${uniqueKey}-button-desktop`}
                   initial="hidden"
@@ -88,7 +90,7 @@ const ImageTextButtonSection = (_props: ImageTextButtonSectionProps) => {
                   className="hidden md:block md:max-w-[275px]"
                 >
                   {" "}
-                  <Link href={buttonSlug}>
+                  <Link href={buttonHref}>
                     <MainButton
                       variant={
                         buttonStyle === "transparentBorder"
@@ -124,16 +126,16 @@ const ImageTextButtonSection = (_props: ImageTextButtonSectionProps) => {
                   className="object-cover"
                 />
               ) : (
-              <Image
-                src={urlForSanityImage(image).url()}
-                fill
-                alt={image?.alt || "Billede"}
-                className="object-cover"
-              />
+                <Image
+                  src={urlForSanityImage(image).url()}
+                  fill
+                  alt={image?.alt || "Billede"}
+                  className="object-cover"
+                />
               )}
             </motion.div>
           ) : null}
-          {buttonText && buttonSlug ? (
+          {buttonText && buttonHref ? (
             <motion.div
               key={`${uniqueKey}-button-mobile`}
               initial="hidden"
@@ -143,7 +145,7 @@ const ImageTextButtonSection = (_props: ImageTextButtonSectionProps) => {
               variants={fadeInAnimation({ scale: 0.85, delay: 0.4, y: 30 })}
               className="md:hidden md:max-w-[275px]"
             >
-              <Link href={buttonSlug}>
+              <Link href={buttonHref}>
                 <MainButton
                   variant={
                     buttonStyle === "transparentBorder"

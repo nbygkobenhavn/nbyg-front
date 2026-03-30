@@ -127,6 +127,7 @@ export type ImageTextButtonSection = {
   buttonStyle?: string;
   buttonText?: string;
   buttonSlug?: string;
+  buttonUrl?: string;
 };
 
 export type FaqSection = {
