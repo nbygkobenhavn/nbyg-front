@@ -3,7 +3,7 @@ import ImageTextButtonSection from "@/components/shared/sections/imageTextButton
 export default function ConstructionServices() {
   return (
     <ImageTextButtonSection
-      uniqueKey="home-page-construction-services"
+      uniqueKey="home-page-construction-services-section"
       title="Byggeydelser i 2026 – opdateret information"
       titlePosition="left"
       image="/images/homePage/constrictionServices/constructionImage.webp"
