@@ -134,8 +134,10 @@ export const PAGE_BY_SLUG_QUERY = `*[
       buttonStyle,
       buttonText,
       "buttonSlug": select(
+        defined(buttonUrl) => buttonUrl,
         defined(buttonPage->parent->slug.current) => "/byggeydelser/" + buttonPage->parent->slug.current + "/" + buttonPage->slug.current,
-        "/byggeydelser/" + buttonPage->slug.current
+        defined(buttonPage->slug.current) => "/byggeydelser/" + buttonPage->slug.current,
+        null
       )
     },
     _type == "tableWithImageSection" => {

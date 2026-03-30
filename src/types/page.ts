@@ -121,12 +121,13 @@ export type ImageTextButtonSection = {
   type: "imageTextButtonSection";
   title: string;
   titlePosition: string;
-  image?: SanityImage;
+  image?: SanityImage | string;
   imagePosition: string;
   description?: PortableText;
   buttonStyle?: string;
   buttonText?: string;
   buttonSlug?: string;
+  buttonUrl?: string;
 };
 
 export type FaqSection = {
