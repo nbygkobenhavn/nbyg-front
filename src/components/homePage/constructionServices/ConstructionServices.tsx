@@ -6,7 +6,7 @@ export default function ConstructionServices() {
       uniqueKey="home-page-construction-services"
       title="Byggeydelser i 2026 – opdateret information"
       titlePosition="left"
-      image="/images/homePage/aboutUs/aboutUsImage.webp"
+      image="/images/homePage/constrictionServices/constructionImage.webp"
       imagePosition="left"
       buttonText="Læs mere om vores ydelser"
       buttonStyle="white"
