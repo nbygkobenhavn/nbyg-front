@@ -116,12 +116,21 @@ const ImageTextButtonSection = (_props: ImageTextButtonSectionProps) => {
               variants={fadeInAnimation({ scale: 0.85, delay: 0.5, x: 30 })}
               className="relative w-full md:w-[43.6%] h-[300px] md:h-auto rounded-[12px] overflow-hidden shrink-0"
             >
+              {typeof image === "string" ? (
+                <Image
+                  src={image}
+                  fill
+                  alt={title || "Billede"}
+                  className="object-cover"
+                />
+              ) : (
               <Image
                 src={urlForSanityImage(image).url()}
                 fill
                 alt={image?.alt || "Billede"}
                 className="object-cover"
               />
+              )}
             </motion.div>
           ) : null}
           {buttonText && buttonSlug ? (
