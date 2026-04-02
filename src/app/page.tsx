@@ -17,6 +17,7 @@ import { getPageSchemaJson } from "@/utils/getPageSchemaJson";
 import { HOME_PAGE_QUERY } from "@/lib/queries";
 import { Metadata } from "next";
 import ConstructionServices from "@/components/homePage/constructionServices/ConstructionServices";
+import Renovation from "@/components/homePage/renovation/Renovation";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata({
@@ -61,6 +62,7 @@ export default async function Home() {
       </Container>
       <Reviews />
       <ConstructionServices />
+      <Renovation />
     </>
   );
 }
