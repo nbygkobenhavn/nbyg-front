@@ -186,7 +186,7 @@ export const getBlogPortableTextComponents = (
           exit="exit"
           viewport={{ once: true, amount: 0.1 }}
           variants={fadeInAnimation({ scale: 0.95, y: 20, delay: 0.2 })}
-          className="m-0 my-4 w-full min-w-0 max-w-none"
+          className="m-0 my-4 w-full min-w-0 max-w-none overflow-hidden rounded-[12px]"
         >
           <Image
             src={imageUrl}

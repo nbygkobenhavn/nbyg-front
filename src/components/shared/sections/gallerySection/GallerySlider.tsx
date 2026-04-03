@@ -144,10 +144,10 @@ export default function GallerySlider({
           })}
         </SwiperWrapper>
 
-        {/* Faste pile på preview — SwiperWrapper-nav er ustabil oven på coverflow i blog/kolonne */}
+        {/* Samme placering som oprindelig SwiperWrapper (onSlides): centreret bånd = slide-bredde, ikke hele kolonnen */}
         <div
           data-gallery-preview-nav
-          className="pointer-events-none absolute inset-0 z-50 flex items-center justify-between px-0 sm:px-1"
+          className="pointer-events-none absolute z-50 top-[calc(50%-27px)] left-[calc(50%-143px)] sm:left-[calc(50%-240.5px)] md:left-[calc(50%-285.5px)] lg:left-[calc(50%-390.5px)] flex w-[286px] sm:w-[481px] md:w-[571px] lg:w-[781px] items-center justify-between sm:gap-3"
           aria-hidden="false"
         >
           <button
