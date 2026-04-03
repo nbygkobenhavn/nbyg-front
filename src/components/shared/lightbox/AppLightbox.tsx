@@ -9,6 +9,7 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import type { LightboxExternalProps, Slide } from "yet-another-react-lightbox";
+import { acquireDocumentScrollLock } from "./documentScrollLock";
 
 export type AppLightboxSlide = {
   src: string;
@@ -44,6 +45,12 @@ export default function AppLightbox({
   onClose,
   onIndexChange,
 }: AppLightboxProps) {
+  React.useEffect(() => {
+    if (!open) return;
+    const release = acquireDocumentScrollLock();
+    return release;
+  }, [open]);
+
   const prepared = React.useMemo((): Slide[] => {
     return slides.map((s) => {
       const base: Slide = {
@@ -86,6 +93,8 @@ export default function AppLightbox({
         preload: 2,
       }}
       animation={{ fade: 160, swipe: 320 }}
+      /* Библиотека: padding-right на body + все fixed — при нашем layout/html-скролле даёт джиттер; см. documentScrollLock + scrollbar-gutter */
+      noScroll={{ disabled: true }}
       styles={{
         root: yarlRootStyle,
       }}
