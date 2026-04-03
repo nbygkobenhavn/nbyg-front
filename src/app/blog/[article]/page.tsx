@@ -75,7 +75,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <Hero article={currentArticle} />
         <Breadcrumbs crumbs={crumbs} />
         <Container className="lg:flex gap-8">
-          <div>
+          <div className="min-w-0 flex-1">
             {currentArticle.content && (
               <ContentSection article={currentArticle} />
             )}

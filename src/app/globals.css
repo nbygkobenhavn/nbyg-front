@@ -240,9 +240,15 @@
     }
   }
 
+  .swiper.gallery-slider {
+    position: relative;
+    z-index: 0;
+  }
+
   .gallery-slider .swiper-slide {
     width: 232px !important;
-    height: 350px !important;
+    height: min(350px, 80dvh) !important;
+    max-height: 80dvh !important;
 
     @media screen and (min-width: 640px) {
       width: 427px !important;
@@ -254,7 +260,7 @@
 
     @media screen and (min-width: 1024px) {
       width: 727px !important;
-      height: 425px !important;
+      height: min(425px, 80dvh) !important;
     }
   }
 

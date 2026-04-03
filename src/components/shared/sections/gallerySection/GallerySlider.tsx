@@ -4,16 +4,17 @@ import SwiperWrapper from "../../swiper/SwiperWrapper";
 import { SanityImage } from "@/types/page";
 import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
 import Image from "next/image";
-import { useState, useRef } from "react";
-import GalleryModal from "./GalleryModal";
-import type { Swiper as SwiperType } from "swiper";
+import { useState, useMemo, useRef } from "react";
+import AppLightbox from "@/components/shared/lightbox/AppLightbox";
+import { galleryItemsToLightboxImages } from "@/components/shared/lightbox/galleryItemsToLightboxImages";
+import ShevronIcon from "@/components/shared/icons/ShevronIcon";
 import * as motion from "motion/react-client";
-import { fadeInAnimation } from "@/utils/animationVariants";
+import type { Swiper as SwiperType } from "swiper";
 
 interface GallerySliderProps {
   items: Array<{
     _key?: string;
-    image?: SanityImage | {link: string, alt: string};
+    image?: SanityImage | { link: string; alt: string };
   }>;
   uniqueKey?: string;
 }
@@ -22,42 +23,43 @@ export default function GallerySlider({
   items,
   uniqueKey,
 }: GallerySliderProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const swiperRef = useRef<SwiperType | null>(null);
 
-  const mainSwiper = useRef<SwiperType | null>(null);
+  const lightboxSlides = useMemo(
+    () => galleryItemsToLightboxImages(items),
+    [items]
+  );
 
   if (!items || !items.length) return null;
 
-  const handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Перевіряємо, чи клік був на кнопку навігації або на контейнер кнопок
+  let lightboxPosition = 0;
+
+  const handleImageClick = (
+    e: React.MouseEvent<HTMLDivElement>,
+    clickedLightboxIndex: number
+  ) => {
     const target = e.target as HTMLElement;
-    const clickedButton = target.closest("button");
-
-    // Перевіряємо, чи клік був на контейнер кнопок (який має absolute позиціонування)
-    const clickedButtonsContainer = target.closest(
-      '[class*="absolute"][class*="z-10"]'
-    );
-
-    if (clickedButton || clickedButtonsContainer) {
-      // Не відкриваємо модалку, якщо клік був на кнопку навігації або на її контейнер
+    if (target.closest("[data-gallery-preview-nav]")) {
       e.stopPropagation();
       return;
     }
 
-    const realIndex = mainSwiper.current?.realIndex ?? activeIndex;
-    setActiveIndex(realIndex);
-    setIsModalOpen(true);
+    setLightboxIndex(clickedLightboxIndex);
+    setLightboxOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleMainSlideChange = (swiper: SwiperType) => {
-    const realIndex = swiper.realIndex;
-    setActiveIndex(realIndex);
-    // Синхронізація з модалкою відбувається через activeIndex та useEffect в GalleryModal
+  const galleryReveal = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.45,
+        delay: 0.05,
+        ease: [0.25, 0.1, 0.25, 1] as const,
+      },
+    },
   };
 
   return (
@@ -66,12 +68,13 @@ export default function GallerySlider({
         key={`${uniqueKey}-gallery-slider`}
         initial="hidden"
         whileInView="visible"
-        exit="exit"
+        exit={{ opacity: 0 }}
         viewport={{ once: true, amount: 0.1 }}
-        variants={fadeInAnimation({ scale: 0.85, x: -70, y: 70, delay: 0.2 })}
-        className="relative"
+        variants={galleryReveal}
+        className="relative w-full min-w-0 overflow-visible"
       >
         <SwiperWrapper
+          uniqueKey={uniqueKey}
           loop={true}
           centeredSlides={true}
           breakpoints={{
@@ -103,22 +106,22 @@ export default function GallerySlider({
           }}
           additionalOptions={{}}
           swiperClassName="gallery-slider"
-          showNavigation={true}
-          buttonsPosition="onSlides"
-          buttonsClassName="absolute z-10 top-[calc(50%-27px)] left-[calc(50%-143px)] sm:left-[calc(50%-240.5px)] md:left-[calc(50%-285.5px)] 
-          lg:left-[calc(50%-390.5px)] w-[286px] sm:w-[481px] md:w-[571px] lg:w-[781px] pointer-events-none"
+          showNavigation={false}
           showCoverflowEffect={true}
-          onSwiper={(swiper) => (mainSwiper.current = swiper)}
-          onSlideChange={handleMainSlideChange}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
         >
           {items.map((item, idx) => {
             if (!item.image) return null;
 
+            const clickedLightboxIndex = lightboxPosition++;
+
             return (
               <SwiperSlide key={item._key || idx}>
                 <div
-                  className="relative w-full h-full rounded-[14px] cursor-pointer"
-                  onClick={handleImageClick}
+                  className="relative h-full w-full min-w-0 overflow-hidden rounded-[14px] cursor-pointer"
+                  onClick={(e) => handleImageClick(e, clickedLightboxIndex)}
                 >
                   <Image
                     src={
@@ -133,21 +136,51 @@ export default function GallerySlider({
                     }
                     fill
                     className="object-cover rounded-[14px]"
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 727px"
                   />
                 </div>
               </SwiperSlide>
             );
           })}
         </SwiperWrapper>
+
+        {/* Faste pile på preview — SwiperWrapper-nav er ustabil oven på coverflow i blog/kolonne */}
+        <div
+          data-gallery-preview-nav
+          className="pointer-events-none absolute inset-0 z-50 flex items-center justify-between px-0 sm:px-1"
+          aria-hidden="false"
+        >
+          <button
+            type="button"
+            className="pointer-events-auto flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white bg-white text-black shadow-[0_2px_12px_rgba(0,0,0,0.35)] transition duration-300 hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:size-[54px]"
+            aria-label="Forrige slide"
+            onClick={(e) => {
+              e.stopPropagation();
+              swiperRef.current?.slidePrev();
+            }}
+          >
+            <ShevronIcon className="size-6 -rotate-90 text-black sm:size-7" />
+          </button>
+          <button
+            type="button"
+            className="pointer-events-auto flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white bg-white text-black shadow-[0_2px_12px_rgba(0,0,0,0.35)] transition duration-300 hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:size-[54px]"
+            aria-label="Næste slide"
+            onClick={(e) => {
+              e.stopPropagation();
+              swiperRef.current?.slideNext();
+            }}
+          >
+            <ShevronIcon className="size-6 rotate-90 text-black sm:size-7" />
+          </button>
+        </div>
       </motion.div>
 
-      <GalleryModal
-        items={items}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        activeIndex={activeIndex}
-        setActiveIndex={setActiveIndex}
-        mainSwiper={mainSwiper}
+      <AppLightbox
+        open={lightboxOpen && lightboxSlides.length > 0}
+        index={lightboxIndex}
+        slides={lightboxSlides}
+        onClose={() => setLightboxOpen(false)}
+        onIndexChange={setLightboxIndex}
       />
     </>
   );

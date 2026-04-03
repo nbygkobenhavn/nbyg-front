@@ -391,7 +391,24 @@ export const BLOG_POST_BY_SLUG_QUERY = `*[
       asset,
       crop,
       hotspot,
-      alt
+      alt,
+      "dimensions": asset->metadata.dimensions
+    },
+    _type == "gallerySection" => {
+      _key,
+      _type,
+      items[]{
+        _key,
+        _type,
+        image{
+          _type,
+          asset,
+          crop,
+          hotspot,
+          alt,
+          "dimensions": asset->metadata.dimensions
+        }
+      }
     },
     _type == "table" => {
       _key,

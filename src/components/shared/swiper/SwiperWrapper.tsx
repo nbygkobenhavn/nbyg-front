@@ -3,7 +3,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 
-import { ReactNode, useRef, useLayoutEffect, useState } from "react";
+import {
+  ReactNode,
+  useRef,
+  useLayoutEffect,
+  useState,
+  type MouseEvent,
+} from "react";
 import { Navigation, EffectCoverflow } from "swiper/modules";
 import { Swiper } from "swiper/react";
 import { SwiperOptions } from "swiper/types";
@@ -72,22 +78,33 @@ export default function SwiperWrapper({
       navigationSetupRef.current = true;
       swiperInstance.params.navigation.prevEl = prevRef.current;
       swiperInstance.params.navigation.nextEl = nextRef.current;
-      swiperInstance.navigation.destroy();
-      swiperInstance.navigation.init();
-      swiperInstance.navigation.update();
+      try {
+        swiperInstance.navigation?.destroy();
+      } catch {
+        /* navigation ще не ініціалізований */
+      }
+      swiperInstance.navigation?.init();
+      swiperInstance.navigation?.update();
 
-      // початковий стан кнопок
       setIsBeginning(swiperInstance.isBeginning);
       setIsEnd(swiperInstance.isEnd);
-
-      // оновлюємо стан кнопок при зміні слайду
-      swiperInstance.on("slideChange", () => {
-        if (swiperInstanceRef.current) {
-          setIsBeginning(swiperInstanceRef.current.isBeginning);
-          setIsEnd(swiperInstanceRef.current.isEnd);
-        }
-      });
     }
+  };
+
+  const handlePrevClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const s = swiperInstanceRef.current;
+    if (!s || (s.isBeginning && !s.params.loop)) return;
+    s.slidePrev();
+  };
+
+  const handleNextClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const s = swiperInstanceRef.current;
+    if (!s || (s.isEnd && !s.params.loop)) return;
+    s.slideNext();
   };
 
   // Прив'язуємо кнопки навігації після рендеру
@@ -105,9 +122,14 @@ export default function SwiperWrapper({
         key={`${uniqueKey}-swiper`}
         onSwiper={(swiper) => {
           swiperInstanceRef.current = swiper;
+          navigationSetupRef.current = false;
           onSwiper?.(swiper);
         }}
-        onSlideChange={onSlideChange}
+        onSlideChange={(swiper) => {
+          setIsBeginning(swiper.isBeginning);
+          setIsEnd(swiper.isEnd);
+          onSlideChange?.(swiper);
+        }}
         centeredSlides={centeredSlides}
         breakpoints={breakpoints}
         navigation={
@@ -132,13 +154,11 @@ export default function SwiperWrapper({
             : {}
         }
         effect={showCoverflowEffect ? "coverflow" : ""}
-        modules={
-          showNavigation && showCoverflowEffect
-            ? [Navigation, EffectCoverflow, ...additionalModules]
-            : showNavigation
-              ? [Navigation, ...additionalModules]
-              : additionalModules
-        }
+        modules={[
+          ...(showNavigation ? [Navigation] : []),
+          ...(showCoverflowEffect ? [EffectCoverflow] : []),
+          ...additionalModules,
+        ]}
         className={swiperClassName}
         {...additionalOptions}
       >
@@ -157,18 +177,24 @@ export default function SwiperWrapper({
             className={`flex justify-between sm:gap-3 items-center pointer-events-none ${buttonsPositionClass[buttonsPosition]}`}
           >
             <button
+              type="button"
               ref={prevRef}
               disabled={isBeginning && !loop}
-              className={`relative z-100 group enabled:cursor-pointer size-[54px] bg-white border border-white rounded-full flex items-center justify-center pointer-events-auto
-             transition duration-300 xl:enabled:hover:opacity-70 disabled:bg-transparent`}
+              aria-label="Forrige slide"
+              className="custom-prev relative z-[100] group enabled:cursor-pointer size-[54px] bg-white border border-white rounded-full flex items-center justify-center pointer-events-auto
+             transition duration-300 xl:enabled:hover:opacity-70 disabled:bg-transparent"
+              onClick={handlePrevClick}
             >
-              <ShevronIcon className="relative z-100 -rotate-90 group-enabled:text-black group-disabled:text-white mr-1 pointer-events-auto" />
+              <ShevronIcon className="relative z-[100] -rotate-90 group-enabled:text-black group-disabled:text-white mr-1 pointer-events-auto" />
             </button>
             <button
+              type="button"
               ref={nextRef}
               disabled={isEnd && !loop}
-              className={`group enabled:cursor-pointer size-[54px] bg-white border border-white rounded-full flex items-center justify-center pointer-events-auto transition 
-          duration-300 xl:enabled:hover:opacity-85 disabled:bg-transparent`}
+              aria-label="Næste slide"
+              className="custom-next group enabled:cursor-pointer size-[54px] bg-white border border-white rounded-full flex items-center justify-center pointer-events-auto z-[100] transition 
+          duration-300 xl:enabled:hover:opacity-85 disabled:bg-transparent"
+              onClick={handleNextClick}
             >
               <ShevronIcon className="rotate-90 group-enabled:text-black group-disabled:text-white ml-1 pointer-events-auto" />
             </button>

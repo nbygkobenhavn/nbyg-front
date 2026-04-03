@@ -9,7 +9,7 @@ interface ContentSectionProps {
 export default function ContentSection({ article }: ContentSectionProps) {
   return (
     <section className="py-25 lg:pt-20 lg:pb-0">
-      <div className="prose prose-lg max-w-none">
+      <div className="prose prose-lg max-w-none min-w-0 overflow-x-visible [&_figure]:mx-0 [&_figure]:max-w-none [&_img]:mx-0 [&_img]:max-w-full [&_img]:w-full">
         <PortableText
           value={
             article.content as unknown as Parameters<

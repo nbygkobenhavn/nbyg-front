@@ -5,12 +5,22 @@ import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
 import Link from "next/link";
 import MainButton from "@/components/shared/buttons/MainButton";
 import type {
+  BlogPostContentGallerySection,
   BlogPostContentImage,
   BlogPostContentTable,
 } from "@/types/blogPost";
+import type { SanityImage } from "@/types/page";
+import GallerySlider from "@/components/shared/sections/gallerySection/GallerySlider";
 import React from "react";
 import * as motion from "motion/react-client";
 import { fadeInAnimation } from "@/utils/animationVariants";
+
+const BLOG_CONTENT_IMAGE_SIZES =
+  "(max-width: 1024px) 100vw, min(896px, calc(100vw - 8rem))";
+
+function blogContentImageUrl(image: BlogPostContentImage) {
+  return urlForSanityImage(image).width(1920).fit("max").auto("format").url();
+}
 
 export const getBlogPortableTextComponents = (
   slug: string
@@ -162,22 +172,54 @@ export const getBlogPortableTextComponents = (
   },
   types: {
     image: ({ value }: { value: BlogPostContentImage }) => {
-      const imageUrl = urlForSanityImage(value).url();
-      const alt = value?.alt || "Blog indlæg billede";
+      const imageUrl = blogContentImageUrl(value);
+      const alt = value?.alt ?? "";
       const key = `${slug}-${value?._key || `image-${Math.random()}`}`;
+      const w = value.dimensions?.width ?? 1200;
+      const h = value.dimensions?.height ?? 800;
 
       return (
-        <motion.div
+        <motion.figure
           key={key}
           initial="hidden"
           whileInView="visible"
           exit="exit"
           viewport={{ once: true, amount: 0.1 }}
           variants={fadeInAnimation({ scale: 0.95, y: 20, delay: 0.2 })}
-          className="relative w-full h-30 lg:h-60 rounded-[12px] overflow-hidden my-4 lg:my-6"
+          className="m-0 my-4 w-full min-w-0 max-w-none"
         >
-          <Image src={imageUrl} fill alt={alt} className="object-cover" />
-        </motion.div>
+          <Image
+            src={imageUrl}
+            alt={alt}
+            width={w}
+            height={h}
+            sizes={BLOG_CONTENT_IMAGE_SIZES}
+            className="block h-auto w-full max-w-full max-h-[80dvh] object-contain"
+          />
+        </motion.figure>
+      );
+    },
+    gallerySection: ({
+      value,
+    }: {
+      value: BlogPostContentGallerySection;
+    }) => {
+      const items = value?.items ?? [];
+      const sliderItems = items
+        .filter((item) => item.image?.asset)
+        .map((item) => ({
+          _key: item._key,
+          image: item.image as SanityImage,
+        }));
+
+      if (sliderItems.length === 0) return null;
+
+      const uniqueKey = `blog-${slug}-${value?._key ?? "gallery"}`;
+
+      return (
+        <div className="relative z-20 my-4 w-full min-w-0 max-w-full overflow-visible not-prose">
+          <GallerySlider items={sliderItems} uniqueKey={uniqueKey} />
+        </div>
       );
     },
     table: ({ value }: { value: BlogPostContentTable }) => {
