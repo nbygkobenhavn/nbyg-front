@@ -246,4 +246,6 @@ export type SanityPage = {
   children: PageChild[];
   sections: PageSection[];
   seo: PageSeo | null;
+  _createdAt?: string;
+  _updatedAt?: string;
 };

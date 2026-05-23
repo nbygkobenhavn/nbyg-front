@@ -20,6 +20,8 @@ export const PAGE_BY_SLUG_QUERY = `*[
   title,
   "slug": slug.current,
   menuOrder,
+  _createdAt,
+  _updatedAt,
   parent->{
     title,
     "slug": slug.current
@@ -376,6 +378,9 @@ export const BLOG_POST_BY_SLUG_QUERY = `*[
     "alt": alt
   },
   "slug": slug.current,
+  _createdAt,
+  _updatedAt,
+  "heroImageUrl": heroDesktopImage.asset->url,
   content[]{
     ...,
     _type == "block" => {

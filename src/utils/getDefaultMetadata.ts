@@ -1,12 +1,14 @@
 import { Metadata } from "next";
 import { getCanonicalUrl } from "./getCanonicalUrl";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.xn--nbygkbenhavn-zjb.dk";
 
 export function getDefaultMetadata(path: string = "/"): Metadata {
   const canonicalUrl = getCanonicalUrl(path);
 
   return {
+    metadataBase: new URL(SITE_URL),
     title: "Nbyg – Tagfirma i København | Tagrenovering & Træterrasser",
     description:
       "Professionelt tagfirma i København med speciale i tagrenovering, nyt tag og opbygning af træterrasser. Få et gratis og uforpligtende tilbud fra Nbyg i dag.",
@@ -15,6 +17,14 @@ export function getDefaultMetadata(path: string = "/"): Metadata {
       languages: {
         "da-DK": canonicalUrl,
         "x-default": canonicalUrl,
+      },
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
       },
     },
     openGraph: {

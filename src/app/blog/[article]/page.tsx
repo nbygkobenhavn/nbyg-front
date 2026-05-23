@@ -13,7 +13,9 @@ import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import { Metadata } from "next";
 import { getDynamicPageMetadata } from "@/utils/getDynamicPageMetadata";
 import { SchemaJson } from "@/components/shared/SchemaJson";
+import ArticleSchema from "@/components/shared/ArticleSchema";
 import { getDynamicPageSchemaJson } from "@/utils/getDynamicPageSchemaJson";
+import { getCanonicalUrl } from "@/utils/getCanonicalUrl";
 
 interface ArticlePageProps {
   params: Promise<{ article: string }>;
@@ -71,6 +73,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <>
       <SchemaJson schemaJson={schemaJson} />
+      {currentArticle._createdAt && (
+        <ArticleSchema
+          headline={heroTitle}
+          url={getCanonicalUrl(`/blog/${slug}`)}
+          datePublished={currentArticle._createdAt}
+          dateModified={currentArticle._updatedAt}
+          imageUrl={currentArticle.heroImageUrl ?? undefined}
+        />
+      )}
       <Suspense fallback={<Loader />}>
         <Hero article={currentArticle} />
         <Breadcrumbs crumbs={crumbs} />

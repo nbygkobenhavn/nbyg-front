@@ -1,0 +1,15 @@
+.aboutUsImage {
+  background-image: url("/images/homePage/aboutUs/aboutUsImage.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 10% 35%;
+  transform: scale(1.25) translateX(-10%);
+  transform-origin: center;
+}
+
+@media (min-width: 1024px) {
+  .aboutUsImage {
+    background-position: center 32%;
+    transform: none;
+  }
+}

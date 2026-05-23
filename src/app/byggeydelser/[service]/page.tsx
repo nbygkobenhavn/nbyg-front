@@ -20,7 +20,9 @@ import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import { Metadata } from "next";
 import { getDynamicPageMetadata } from "@/utils/getDynamicPageMetadata";
 import { SchemaJson } from "@/components/shared/SchemaJson";
+import WebPageSchema from "@/components/shared/WebPageSchema";
 import { getDynamicPageSchemaJson } from "@/utils/getDynamicPageSchemaJson";
+import { getCanonicalUrl } from "@/utils/getCanonicalUrl";
 
 interface ServicePageProps {
   params: Promise<{ service: string }>;
@@ -93,6 +95,14 @@ export default async function ServicePage({ params }: ServicePageProps) {
   return (
     <>
       <SchemaJson schemaJson={schemaJson} />
+      {currentService._createdAt && (
+        <WebPageSchema
+          title={title}
+          url={getCanonicalUrl(`/byggeydelser/${slug}`)}
+          datePublished={currentService._createdAt}
+          dateModified={currentService._updatedAt}
+        />
+      )}
       <Suspense fallback={<Loader />}>
         {currentService.sections?.map((section, index) => {
           const { _type } = section;

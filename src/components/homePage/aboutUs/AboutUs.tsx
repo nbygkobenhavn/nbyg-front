@@ -6,6 +6,7 @@ import DecorativeEllipsis from "@/components/shared/decorativeEllipsis/Decorativ
 import * as motion from "motion/react-client";
 import { fadeInAnimation } from "@/utils/animationVariants";
 import Link from "next/link";
+import styles from "./AboutUs.module.css";
 
 export default function AboutUs() {
     return (
@@ -88,15 +89,10 @@ export default function AboutUs() {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.1 }}
-                        className="w-full h-[300px] rounded-[8px] overflow-hidden"
-                    >
-                        <Image
-                            src="/images/homePage/aboutUs/aboutUsImage.webp"
-                            alt="Nbyg København – byggefirma"
-                            fill
-                            className="object-cover scale-125 object-[10%_35%] translate-x-[-10%] lg:scale-100 lg:object-[center_32%] lg:translate-x-0"
-                        />
-                    </motion.div>
+                        role="presentation"
+                        aria-hidden="true"
+                        className={`w-full h-[300px] rounded-[8px] overflow-hidden ${styles.aboutUsImage}`}
+                    />
                 </div>
                 <motion.div
                     variants={fadeInAnimation({ y: 30, delay: 1 })}

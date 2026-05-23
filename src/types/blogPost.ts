@@ -75,6 +75,9 @@ export type BlogPost = {
   content: BlogPostContent[];
   faq?: FaqSection | null;
   seo?: PageSeo | null;
+  _createdAt?: string;
+  _updatedAt?: string;
+  heroImageUrl?: string | null;
 };
 
 export type BlogPostPreview = {

@@ -20,7 +20,9 @@ import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import { Metadata } from "next";
 import { getDynamicPageMetadata } from "@/utils/getDynamicPageMetadata";
 import { SchemaJson } from "@/components/shared/SchemaJson";
+import WebPageSchema from "@/components/shared/WebPageSchema";
 import { getDynamicPageSchemaJson } from "@/utils/getDynamicPageSchemaJson";
+import { getCanonicalUrl } from "@/utils/getCanonicalUrl";
 
 interface SubservicePageProps {
   params: Promise<{ service: string; subservice: string }>;
@@ -100,6 +102,14 @@ export default async function SubservicePage({ params }: SubservicePageProps) {
   return (
     <>
       <SchemaJson schemaJson={schemaJson} />
+      {currentSubservice._createdAt && (
+        <WebPageSchema
+          title={title}
+          url={getCanonicalUrl(`/byggeydelser/${parent?.slug}/${slug}`)}
+          datePublished={currentSubservice._createdAt}
+          dateModified={currentSubservice._updatedAt}
+        />
+      )}
       <Suspense fallback={<Loader />}>
         {currentSubservice.sections?.map((section, index) => {
           const { _type } = section;
