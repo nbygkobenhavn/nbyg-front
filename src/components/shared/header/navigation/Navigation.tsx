@@ -65,7 +65,7 @@ export default function Navigation({ dynamicPagesList }: NavigationProps) {
     return (
         <>
             <nav className="relative hidden lg:block">
-                <ul className="flex items-center space-between gap-4 lg:gap-8 font-light uppercase leading-5 text-3">
+                <ul className="flex items-center space-between gap-4 lg:gap-5 xl:gap-8 font-light uppercase leading-5 text-3">
                     {mainNavList.map(item => {
                         const isHovered = hoveredItem === item.href;
                         return (
@@ -80,7 +80,7 @@ export default function Navigation({ dynamicPagesList }: NavigationProps) {
                             >
                                 <Link
                                     href={item.href}
-                                    className="flex items-center gap-2 text-shadow-white"
+                                    className="flex items-center gap-2 whitespace-nowrap text-shadow-white"
                                 >
                                     {item.label}
                                     {item.dropdown && (

@@ -57,7 +57,7 @@ export default function Header({ dynamicPagesList }: HeaderProps) {
                         <Navigation dynamicPagesList={dynamicPagesList} />
                         <Link href="/kontakt-os" className="hidden lg:block">
                             <MainButton
-                                className="hidden lg:flex w-[217px] h-12"
+                                className="hidden lg:flex w-[150px] xl:w-[217px] h-12"
                                 variant="outline"
                             >
                                 Kontakt os
