@@ -24,22 +24,22 @@ import WebPageSchema from "@/components/shared/WebPageSchema";
 import { getDynamicPageSchemaJson } from "@/utils/getDynamicPageSchemaJson";
 import { getCanonicalUrl } from "@/utils/getCanonicalUrl";
 
-interface ProjectPageProps {
-  params: Promise<{ project: string }>;
+interface SubprojectPageProps {
+  params: Promise<{ project: string; subproject: string }>;
 }
 
 export async function generateMetadata({
   params,
-}: ProjectPageProps): Promise<Metadata> {
-  const { project } = await params;
+}: SubprojectPageProps): Promise<Metadata> {
+  const { project, subproject } = await params;
 
   return getDynamicPageMetadata({
     query: PROJECT_BY_SLUG_QUERY,
     queryParams: {
-      slug: project,
-      parentSlug: "",
+      slug: subproject,
+      parentSlug: project,
     },
-    path: `/projects/${project}`,
+    path: `/projects/${project}/${subproject}`,
   });
 }
 
@@ -61,26 +61,26 @@ const sectionComponentMap: Partial<
   largeTableSection: LargeTableSection as ComponentType<PageSection>,
 };
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { project } = await params;
+export default async function SubprojectPage({ params }: SubprojectPageProps) {
+  const { project, subproject } = await params;
 
-  const currentProject = await fetchSanityData<SanityPage>(
+  const currentSubproject = await fetchSanityData<SanityPage>(
     PROJECT_BY_SLUG_QUERY,
     {
-      slug: project,
-      parentSlug: "",
+      slug: subproject,
+      parentSlug: project,
     }
   );
 
-  if (!currentProject) {
+  if (!currentSubproject) {
     return null;
   }
 
-  const { title, slug } = currentProject;
+  const { title, slug, parent } = currentSubproject;
 
   const schemaJson = await getDynamicPageSchemaJson(PROJECT_BY_SLUG_QUERY, {
-    slug: project,
-    parentSlug: "",
+    slug: subproject,
+    parentSlug: project,
   });
 
   const crumbs = [
@@ -90,32 +90,36 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       href: "/projects",
     },
     {
+      label: parent?.title || "",
+      href: `/projects/${parent?.slug}` || "",
+    },
+    {
       label: title,
-      href: `/projects/${slug}`,
+      href: `/projects/${parent?.slug}/${slug}`,
     },
   ];
 
   return (
     <>
       <SchemaJson schemaJson={schemaJson} />
-      {currentProject._createdAt && (
+      {currentSubproject._createdAt && (
         <WebPageSchema
           title={title}
-          url={getCanonicalUrl(`/projects/${slug}`)}
-          datePublished={currentProject._createdAt}
-          dateModified={currentProject._updatedAt}
+          url={getCanonicalUrl(`/projects/${parent?.slug}/${slug}`)}
+          datePublished={currentSubproject._createdAt}
+          dateModified={currentSubproject._updatedAt}
         />
       )}
       <Suspense fallback={<Loader />}>
-        {currentProject.sections?.map((section, index) => {
+        {currentSubproject.sections?.map((section, index) => {
           const { _type } = section;
 
           const SectionComponent = sectionComponentMap[_type];
           if (!SectionComponent) return null;
 
-          const key =
-            (section as { _key?: string })._key ??
-            `${project}-${section._type}-${index}`;
+          const sectionKey =
+            (section as { _key?: string })._key ?? `${section._type}-${index}`;
+          const key = `${project}-${subproject}-${sectionKey}`;
 
           const element =
             _type === "faqSection" ? (

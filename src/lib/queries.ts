@@ -221,10 +221,10 @@ export const PAGE_BY_SLUG_QUERY = `*[
 }`;
 
 // ---- Проєкти (projectPage) ----
-// Проєкти — це сторінки-конструктори із секцій (як послуги), без підсторінок.
-// Каталог /projects працює як блог: картки формуються з першої heroSection.
+// Проєкти — це сторінки-конструктори із секцій (як послуги), з одним рівнем підсторінок.
+// Каталог /projects показує лише проєкти верхнього рівня; картки формуються з першої heroSection.
 
-export const ALL_PROJECT_PAGES_QUERY = `*[_type == "projectPage"] | order(menuOrder asc, _createdAt desc){
+export const ALL_PROJECT_PAGES_QUERY = `*[_type == "projectPage" && !defined(parent._ref)] | order(menuOrder asc, _createdAt desc){
   "heroTitle": coalesce(sections[_type == "heroSection"][0].title, title),
   "heroDescription": sections[_type == "heroSection"][0].description,
   "heroMobileImage": sections[_type == "heroSection"][0].mobileImage{
@@ -237,13 +237,24 @@ export const ALL_PROJECT_PAGES_QUERY = `*[_type == "projectPage"] | order(menuOr
 
 export const PROJECT_BY_SLUG_QUERY = `*[
   _type == "projectPage" &&
-  slug.current == $slug
+  slug.current == $slug &&
+  coalesce(parent->slug.current, "") == coalesce($parentSlug, "")
 ][0]{
   title,
   "slug": slug.current,
   menuOrder,
   _createdAt,
   _updatedAt,
+  parent->{
+    title,
+    "slug": slug.current
+  },
+  "children": *[_type == "projectPage" && parent._ref == ^._id]
+    | order(menuOrder asc, title asc){
+      title,
+      "slug": slug.current,
+      menuOrder
+    },
   ${PAGE_SECTIONS_PROJECTION},
   seo{
     metaTitle,

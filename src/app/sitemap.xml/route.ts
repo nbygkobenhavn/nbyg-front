@@ -26,7 +26,7 @@ type BlogPost = {
 
 type SanitySitemapData = {
   pages: Page[];
-  projectPages: BlogPost[];
+  projectPages: Page[];
   blogPosts: BlogPost[];
 };
 
@@ -42,9 +42,16 @@ const GET_DYNAMIC_PAGES_SLUGS = `{
       _updatedAt
     }
   },
-  "projectPages": *[_type == "projectPage"]{
+  "projectPages": *[_type == "projectPage" && !defined(parent._ref)]{
     "slug": slug.current,
-    _updatedAt
+    _updatedAt,
+    "children": *[
+      _type == "projectPage" &&
+      parent._ref == ^._id
+    ]{
+      "slug": slug.current,
+      _updatedAt
+    }
   },
   "blogPosts": *[_type == "blogPost"]{
     "slug": slug.current,
@@ -96,14 +103,23 @@ async function getDynamicPages(): Promise<SitemapUrl[]> {
     }))
   );
 
-  // Проєкти (projectPage) — плоский список, без підсторінок
+  // Проєкти (projectPage) та їхні підсторінки
   const projectPages = res?.projectPages || [];
-  const projectsPaths: SitemapUrl[] = projectPages.map((project: BlogPost) => ({
+  const projectsPaths: SitemapUrl[] = projectPages.map((project: Page) => ({
     loc: `/projects/${project.slug}`,
     lastmod: project._updatedAt || new Date().toISOString(),
     changefreq: "monthly",
     priority: 0.8,
   }));
+
+  const subprojectsPaths: SitemapUrl[] = projectPages.flatMap((project: Page) =>
+    (project.children || []).map((child: PageChild) => ({
+      loc: `/projects/${project.slug}/${child.slug}`,
+      lastmod: child._updatedAt || new Date().toISOString(),
+      changefreq: "monthly",
+      priority: 0.7,
+    }))
+  );
 
   const blogPosts = res?.blogPosts || [];
   const blogPostsPaths: SitemapUrl[] = blogPosts.map((post: BlogPost) => ({
@@ -117,6 +133,7 @@ async function getDynamicPages(): Promise<SitemapUrl[]> {
     ...pagesPaths,
     ...subservicesPaths,
     ...projectsPaths,
+    ...subprojectsPaths,
     ...blogPostsPaths,
   ];
 }
