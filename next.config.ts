@@ -15,17 +15,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async redirects() {
-    return [
-      {
-        // 301: www → non-www (задача SEO №1)
-        source: "/:path*",
-        has: [{ type: "host", value: "www.xn--nbygkbenhavn-zjb.dk" }],
-        destination: "https://xn--nbygkbenhavn-zjb.dk/:path*",
-        permanent: true,
-      },
-    ];
-  },
+  // Канонікалізація хоста (www → non-www, задача SEO №1) виконується на рівні
+  // хостинг-платформи: встановіть основним доменом xn--nbygkbenhavn-zjb.dk (non-www),
+  // і платформа сама редіректить www → non-www.
+  // НЕ дублюйте цей редірект тут: разом із редіректом платформи він утворює
+  // нескінченний цикл (ERR_TOO_MANY_REDIRECTS).
 };
 
 export default nextConfig;
