@@ -23,7 +23,7 @@ export const servicesList = [
     imageRight: true,
     button: {
       text: "LÆS MERE OM BADEVÆRELSE",
-      url: "/byggeydelser/renovering-af-badevrelse",
+      url: "/byggeydelser/renovering-af-badeverelse",
     },
   },
   {
