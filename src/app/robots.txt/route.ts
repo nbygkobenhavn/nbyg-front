@@ -18,7 +18,7 @@ export async function GET() {
       baseUrl = `${protocol}://${host}`;
     } else {
       // Fallback на дефолтний домен
-      baseUrl = "https://www.nbygkøbenhavn.dk";
+      baseUrl = "https://xn--nbygkbenhavn-zjb.dk";
     }
   }
 

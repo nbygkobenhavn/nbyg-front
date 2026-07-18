@@ -21,7 +21,7 @@ export const services = [
         description:
             "Drømmer du om et lyst og moderne badeværelse? Hos Nbyg hjælper vi dig med at skabe præcis det rum, du ønsker. Vi står for hele processen – fra planlægning og materialevalg til færdig montering, så du får et badeværelse, der både føles og ser godt ud.",
         image: {link: "/images/homePage/services/renovering-af-badeværelse.webp", alt: "Kvalitetshåndværk i København"},
-        link: "/byggeydelser/renovering-af-badevrelse",
+        link: "/byggeydelser/renovering-af-badeverelse",
     },
     {
         _key: "totalrenovering-hus",
@@ -53,7 +53,7 @@ export const services = [
         description:
             "Et ståltag er et let og holdbart alternativ til traditionelle tagmaterialer. Det er modstandsdygtigt over for vind, regn og frost og kræver kun minimal vedligeholdelse.Ståltage fås i mange profiler og farver, hvilket gør det muligt at skabe et moderne og elegant udtryk, der passer til både nye og ældre huse.",
         image: {link: "/images/homePage/services/ståltage.webp", alt: "Ståltag – moderne og robust løsning"},
-        link: "/byggeydelser/tag/stltage",
+        link: "/byggeydelser/tag/staltage",
     },
     {
         _key: "eternit",

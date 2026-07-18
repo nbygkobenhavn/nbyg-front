@@ -11,9 +11,11 @@ import Image from "next/image";
 
 interface BlogListProps {
   blogPosts: BlogPostPreview[];
+  /** Базовий шлях для карток (напр. "/projects"). За замовчуванням "/blog". */
+  hrefBase?: string;
 }
 
-export default function BlogList({ blogPosts }: BlogListProps) {
+export default function BlogList({ blogPosts, hrefBase = "/blog" }: BlogListProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const itemsPerPage = useBlogArticlesPerPage();
@@ -60,7 +62,7 @@ export default function BlogList({ blogPosts }: BlogListProps) {
                   key={`${post?.slug}`}
                   className="sm:w-[calc(50%-12px)] md:w-[calc(50%-14.5px)] lg:w-[calc(33.33%-19.33px)] h-auto"
                 >
-                  <BlogCard post={post} />
+                  <BlogCard post={post} hrefBase={hrefBase} />
                 </motion.li>
               ))}
             </ul>

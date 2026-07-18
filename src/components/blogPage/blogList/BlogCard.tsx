@@ -5,14 +5,17 @@ import Link from "next/link";
 
 interface BlogCardProps {
   post: BlogPostPreview;
+  /** Базовий шлях для посилання картки. За замовчуванням /blog,
+   * але каталог проєктів переюзує цю ж картку з /projects. */
+  hrefBase?: string;
 }
 
-export default function BlogCard({ post }: BlogCardProps) {
+export default function BlogCard({ post, hrefBase = "/blog" }: BlogCardProps) {
   const { heroMobileImage, heroTitle, heroDescription, slug } = post;
 
   return (
     <Link
-      href={`/blog/${slug}`}
+      href={`${hrefBase}/${slug}`}
       className="group relative flex flex-col rounded-[12px] overflow-hidden h-full bg-black"
     >
       <div

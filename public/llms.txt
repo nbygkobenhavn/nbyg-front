@@ -1,0 +1,38 @@
+# Nbyg København
+
+## Beskrivelse
+Nbyg er et tømrer- og tagfirma registreret som Nbyg Bornholm ApS (CVR: 38879723). Virksomheden udfører tagarbejde, renovering og terrassebyggeri for private boligejere i København og på Bornholm.
+
+## Primære sider
+- Forside: https://xn--nbygkbenhavn-zjb.dk/
+- Om os: https://xn--nbygkbenhavn-zjb.dk/om-os
+- Byggeydelser: https://xn--nbygkbenhavn-zjb.dk/byggeydelser
+- Tag: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/tag
+- Tegltag: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/tag/tegltag
+- Ståltag: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/tag/staltage
+- Eternittag: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/tag/eternittag
+- Tagpap: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/tag/tagpap
+- Terrasser: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/terrasser
+- Renovering af badeværelse: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/renovering-af-badeverelse
+- Totalrenovering af hus: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/totalrenovering-af-hus
+- Renovering af lejlighed: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/renovering-af-lejlighed
+- Renovering af sommerhus: https://xn--nbygkbenhavn-zjb.dk/byggeydelser/renovering-af-sommerhus
+- Tagprisberegner: https://xn--nbygkbenhavn-zjb.dk/tagprisberegner
+- Terrasseprisberegner: https://xn--nbygkbenhavn-zjb.dk/terrasseprisberegner
+- Galleri: https://xn--nbygkbenhavn-zjb.dk/galleri
+- Kontakt: https://xn--nbygkbenhavn-zjb.dk/kontakt-os
+- Blog: https://xn--nbygkbenhavn-zjb.dk/blog
+- Sitemap: https://xn--nbygkbenhavn-zjb.dk/sitemap.xml
+
+## Kontakt
+- Telefon: +45 91 84 28 57
+- CVR: 38879723
+- Serviceområde: København, Frederiksberg, Amager, Østerbro, Gentofte, Gladsaxe, Bornholm
+
+## AI-ressourcer
+- About: https://xn--nbygkbenhavn-zjb.dk/about.md
+- FAQ: https://xn--nbygkbenhavn-zjb.dk/faq.md
+- Sitemap: https://xn--nbygkbenhavn-zjb.dk/sitemap.xml
+
+## Bemærkning
+Denne fil er beregnet til AI-systemer og søgeassistenter. Officielle oplysninger findes på de angivne sider.

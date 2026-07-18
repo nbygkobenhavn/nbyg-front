@@ -3,21 +3,21 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://nbygkøbenhavn.dk/#website",
-      "url": "https://nbygkøbenhavn.dk",
+      "@id": "https://xn--nbygkbenhavn-zjb.dk/#website",
+      "url": "https://xn--nbygkbenhavn-zjb.dk",
       "name": "Nbyg – Tagfirma i København",
       "description": "Professionelt tagfirma i København med speciale i tagrenovering, nyt tag og opbygning af træterrasser. Få et gratis og uforpligtende tilbud fra Nbyg i dag."
     },
     {
       "@type": "Organization",
-      "@id": "https://nbygkøbenhavn.dk/#organization",
+      "@id": "https://xn--nbygkbenhavn-zjb.dk/#organization",
       "name": "Nbyg – Tagfirma i København",
-      "url": "https://nbygkøbenhavn.dk",
+      "url": "https://xn--nbygkbenhavn-zjb.dk",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://nbygkøbenhavn.dk/images/logo.png"
+        "url": "https://xn--nbygkbenhavn-zjb.dk/images/logo.png"
       },
-      "image": "https://nbygkøbenhavn.dk/opengraph-image.jpg",
+      "image": "https://xn--nbygkbenhavn-zjb.dk/opengraph-image.jpg",
       "telephone": "+45 91 84 28 57",
       "email": "nbygkobenhavn.kunder@gmail.com",
       "sameAs": [
@@ -28,11 +28,11 @@
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://nbygkøbenhavn.dk/#localbusiness",
+      "@id": "https://xn--nbygkbenhavn-zjb.dk/#localbusiness",
       "name": "Nbyg – Tagfirma i København",
-      "url": "https://nbygkøbenhavn.dk",
-      "logo": "https://nbygkøbenhavn.dk/images/logo.png",
-      "image": "https://nbygkøbenhavn.dk/opengraph-image.jpg",
+      "url": "https://xn--nbygkbenhavn-zjb.dk",
+      "logo": "https://xn--nbygkbenhavn-zjb.dk/images/logo.png",
+      "image": "https://xn--nbygkbenhavn-zjb.dk/opengraph-image.jpg",
       "telephone": "+45 91 84 28 57",
       "email": "nbygkobenhavn.kunder@gmail.com",
       "openingHours": "Mo-Fr 08:00-17:00",
@@ -51,11 +51,11 @@
     },
     {
       "@type": "FAQPage",
-      "@id": "https://nbygkøbenhavn.dk/#faq",
+      "@id": "https://xn--nbygkbenhavn-zjb.dk/#faq",
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Hvorslev byggefirma Nbyg?",
+          "name": "Hvor er byggefirmaet Nbyg placeret?",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Vores hovedkontor ligger på Bornholm, men vi har åbnet en afdeling i København for at være tættere på vores kunder i hovedstadsområdet og tilbyde samme høje kvalitet lokalt."

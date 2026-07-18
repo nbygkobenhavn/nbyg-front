@@ -12,6 +12,7 @@ import { DynamicPage } from "@/types/dynamicPage";
 import Script from "next/script";
 import { GoogleTagManager } from "@next/third-parties/google";
 import BreadcrumbSchema from "@/components/shared/BreadcrumbSchema";
+import OrganizationRatingSchema from "@/components/shared/OrganizationRatingSchema";
 
 const geistSans = Montserrat({
   variable: "--font-montserrat",
@@ -59,6 +60,7 @@ export default async function RootLayout({
           src="https://cdn-cookieyes.com/client_data/17e4795a8aff15e288f360abc85aef25/script.js"
         />
         <BreadcrumbSchema />
+        <OrganizationRatingSchema />
       </head>
 
       <body

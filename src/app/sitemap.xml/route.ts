@@ -26,6 +26,7 @@ type BlogPost = {
 
 type SanitySitemapData = {
   pages: Page[];
+  projectPages: BlogPost[];
   blogPosts: BlogPost[];
 };
 
@@ -40,6 +41,10 @@ const GET_DYNAMIC_PAGES_SLUGS = `{
       "slug": slug.current,
       _updatedAt
     }
+  },
+  "projectPages": *[_type == "projectPage"]{
+    "slug": slug.current,
+    _updatedAt
   },
   "blogPosts": *[_type == "blogPost"]{
     "slug": slug.current,
@@ -91,6 +96,15 @@ async function getDynamicPages(): Promise<SitemapUrl[]> {
     }))
   );
 
+  // Проєкти (projectPage) — плоский список, без підсторінок
+  const projectPages = res?.projectPages || [];
+  const projectsPaths: SitemapUrl[] = projectPages.map((project: BlogPost) => ({
+    loc: `/projects/${project.slug}`,
+    lastmod: project._updatedAt || new Date().toISOString(),
+    changefreq: "monthly",
+    priority: 0.8,
+  }));
+
   const blogPosts = res?.blogPosts || [];
   const blogPostsPaths: SitemapUrl[] = blogPosts.map((post: BlogPost) => ({
     loc: `/blog/${post.slug}`,
@@ -99,7 +113,12 @@ async function getDynamicPages(): Promise<SitemapUrl[]> {
     priority: 0.7,
   }));
 
-  return [...pagesPaths, ...subservicesPaths, ...blogPostsPaths];
+  return [
+    ...pagesPaths,
+    ...subservicesPaths,
+    ...projectsPaths,
+    ...blogPostsPaths,
+  ];
 }
 
 function formatDate(date: string): string {
@@ -152,6 +171,12 @@ export async function GET() {
         lastmod: new Date().toISOString(),
         changefreq: "monthly",
         priority: 0.9,
+      },
+      {
+        loc: "/projects",
+        lastmod: new Date().toISOString(),
+        changefreq: "monthly",
+        priority: 0.8,
       },
       {
         loc: "/galleri",

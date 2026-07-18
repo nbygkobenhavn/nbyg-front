@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.xn--nbygkbenhavn-zjb.dk";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://xn--nbygkbenhavn-zjb.dk";
 
 function humanizeSegment(segment: string): string {
   const decoded = decodeURIComponent(segment).replace(/-/g, " ");

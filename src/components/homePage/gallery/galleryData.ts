@@ -41,46 +41,46 @@ export const galleryData = [
     },
     {
         _key: "11",
-        image: {link: "/images/homePage/gallery/gallery-11.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-11.webp", alt: "Nyt tegltag monteret på hus i København"},
     },
     {
         _key: "12",
-        image: {link: "/images/homePage/gallery/gallery-12.webp", alt: ""},   
+        image: {link: "/images/homePage/gallery/gallery-12.webp", alt: "Færdig træterrasse med synlige skruer"},
     },
     {
         _key: "13",
-        image: {link: "/images/homePage/gallery/gallery-13.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-13.webp", alt: "Renoveret badeværelse med fliser og nyt armatur"},
     },
     {
         _key: "14",
-        image: {link: "/images/homePage/gallery/gallery-14.webp", alt: "Totalrenovering lejlighed – komplet Nbyg projekt"},
+        image: {link: "/images/homePage/gallery/gallery-14.webp", alt: "Nyrenoveret stue efter totalrenovering af lejlighed"},
     },
     {
         _key: "15",
-        image: {link: "/images/homePage/gallery/gallery-15.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-15.webp", alt: "Ståltag i mørk nuance på parcelhus"},
     },
     {
         _key: "16",
-        image: {link: "/images/homePage/gallery/gallery-16.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-16.webp", alt: "Tagrender og inddækning monteret af Nbyg"},
     },
     {
         _key: "17",
-        image: {link: "/images/homePage/gallery/gallery-17.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-17.webp", alt: "Nyt køkken efter renovering af lejlighed"},
     },
     {
         _key: "18",
-        image: {link: "/images/homePage/gallery/gallery-18.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-18.webp", alt: "Terrasse i komposit med moderne udtryk"},
     },
     {
         _key: "19",
-        image: {link: "/images/homePage/gallery/gallery-19.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-19.webp", alt: "Facadearbejde og vinduesudskiftning på hus"},
     },
     {
         _key: "20",
-        image: {link: "/images/homePage/gallery/gallery-20.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-20.webp", alt: "Isolering af loft under tagrenovering"},
     },
     {
         _key: "21",
-        image: {link: "/images/homePage/gallery/gallery-21.webp", alt: ""},
+        image: {link: "/images/homePage/gallery/gallery-21.webp", alt: "Færdigt projekt – tag- og terrassearbejde kombineret"},
     },
 ];

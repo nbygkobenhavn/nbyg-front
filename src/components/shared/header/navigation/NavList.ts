@@ -15,6 +15,10 @@ export const mainNavList: NavItem[] = [
         dropdown: true,
     },
     {
+        label: "Projekter",
+        href: "/projects",
+    },
+    {
         label: "Om os",
         href: "/om-os",
     },

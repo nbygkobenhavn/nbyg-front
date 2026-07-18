@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { getCanonicalUrl } from "./getCanonicalUrl";
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.xn--nbygkbenhavn-zjb.dk";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://xn--nbygkbenhavn-zjb.dk";
 
 export function getDefaultMetadata(path: string = "/"): Metadata {
   const canonicalUrl = getCanonicalUrl(path);

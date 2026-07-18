@@ -12,7 +12,7 @@ import TextRevealCardsSliderSection from "@/components/shared/sections/textRevea
 import RoofTypesSection from "@/components/shared/sections/roofTypesSection/RoofTypesSection";
 import LargeTableSection from "@/components/shared/sections/largeTableSection/LargeTableSection";
 import Container from "@/components/shared/container/Container";
-import { PAGE_BY_SLUG_QUERY } from "@/lib/queries";
+import { PROJECT_BY_SLUG_QUERY } from "@/lib/queries";
 import { fetchSanityData } from "@/utils/fetchSanityData";
 import type { PageSection, SanityPage } from "@/types/page";
 import Loader from "@/components/shared/loader/Loader";
@@ -21,26 +21,24 @@ import { Metadata } from "next";
 import { getDynamicPageMetadata } from "@/utils/getDynamicPageMetadata";
 import { SchemaJson } from "@/components/shared/SchemaJson";
 import WebPageSchema from "@/components/shared/WebPageSchema";
-import ServiceSchema from "@/components/shared/ServiceSchema";
 import { getDynamicPageSchemaJson } from "@/utils/getDynamicPageSchemaJson";
 import { getCanonicalUrl } from "@/utils/getCanonicalUrl";
 
-interface ServicePageProps {
-  params: Promise<{ service: string }>;
+interface ProjectPageProps {
+  params: Promise<{ project: string }>;
 }
 
 export async function generateMetadata({
   params,
-}: ServicePageProps): Promise<Metadata> {
-  const { service } = await params;
+}: ProjectPageProps): Promise<Metadata> {
+  const { project } = await params;
 
   return getDynamicPageMetadata({
-    query: PAGE_BY_SLUG_QUERY,
+    query: PROJECT_BY_SLUG_QUERY,
     queryParams: {
-      slug: service,
-      parentSlug: "",
+      slug: project,
     },
-    path: `/byggeydelser/${service}`,
+    path: `/projects/${project}`,
   });
 }
 
@@ -62,51 +60,51 @@ const sectionComponentMap: Partial<
   largeTableSection: LargeTableSection as ComponentType<PageSection>,
 };
 
-export default async function ServicePage({ params }: ServicePageProps) {
-  const { service } = await params;
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { project } = await params;
 
-  const currentService = await fetchSanityData<SanityPage>(PAGE_BY_SLUG_QUERY, {
-    slug: service,
-    parentSlug: "",
-  });
+  const currentProject = await fetchSanityData<SanityPage>(
+    PROJECT_BY_SLUG_QUERY,
+    {
+      slug: project,
+    }
+  );
 
-  if (!currentService) {
+  if (!currentProject) {
     return null;
   }
 
-  const { title, slug } = currentService;
+  const { title, slug } = currentProject;
 
-  const schemaJson = await getDynamicPageSchemaJson(PAGE_BY_SLUG_QUERY, {
-    slug: service,
-    parentSlug: "",
+  const schemaJson = await getDynamicPageSchemaJson(PROJECT_BY_SLUG_QUERY, {
+    slug: project,
   });
 
   const crumbs = [
     { label: "Hjem", href: "/" },
     {
-      label: "Byggeydelser",
-      href: "/byggeydelser",
+      label: "Projekter",
+      href: "/projects",
     },
     {
       label: title,
-      href: `/byggeydelser/${slug}`,
+      href: `/projects/${slug}`,
     },
   ];
 
   return (
     <>
       <SchemaJson schemaJson={schemaJson} />
-      <ServiceSchema title={title} />
-      {currentService._createdAt && (
+      {currentProject._createdAt && (
         <WebPageSchema
           title={title}
-          url={getCanonicalUrl(`/byggeydelser/${slug}`)}
-          datePublished={currentService._createdAt}
-          dateModified={currentService._updatedAt}
+          url={getCanonicalUrl(`/projects/${slug}`)}
+          datePublished={currentProject._createdAt}
+          dateModified={currentProject._updatedAt}
         />
       )}
       <Suspense fallback={<Loader />}>
-        {currentService.sections?.map((section, index) => {
+        {currentProject.sections?.map((section, index) => {
           const { _type } = section;
 
           const SectionComponent = sectionComponentMap[_type];
@@ -114,7 +112,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
           const key =
             (section as { _key?: string })._key ??
-            `${service}-${section._type}-${index}`;
+            `${project}-${section._type}-${index}`;
 
           const element =
             _type === "faqSection" ? (
@@ -125,7 +123,6 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <SectionComponent key={key} {...section} uniqueKey={key} />
             );
 
-          // Якщо це heroSection — додаємо Breadcrumbs після нього
           if (_type === "heroSection") {
             return (
               <div key={key}>

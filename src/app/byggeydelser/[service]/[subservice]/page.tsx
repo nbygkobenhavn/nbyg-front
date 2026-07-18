@@ -21,6 +21,7 @@ import { Metadata } from "next";
 import { getDynamicPageMetadata } from "@/utils/getDynamicPageMetadata";
 import { SchemaJson } from "@/components/shared/SchemaJson";
 import WebPageSchema from "@/components/shared/WebPageSchema";
+import ServiceSchema from "@/components/shared/ServiceSchema";
 import { getDynamicPageSchemaJson } from "@/utils/getDynamicPageSchemaJson";
 import { getCanonicalUrl } from "@/utils/getCanonicalUrl";
 
@@ -102,6 +103,7 @@ export default async function SubservicePage({ params }: SubservicePageProps) {
   return (
     <>
       <SchemaJson schemaJson={schemaJson} />
+      <ServiceSchema title={title} />
       {currentSubservice._createdAt && (
         <WebPageSchema
           title={title}

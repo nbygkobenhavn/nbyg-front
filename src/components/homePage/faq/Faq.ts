@@ -1,6 +1,6 @@
 export const faq = [
     {
-        question: "Hvorslev byggefirma Nbyg?",
+        question: "Hvor er byggefirmaet Nbyg placeret?",
         answer: "Vores hovedkontor ligger på Bornholm, men vi har åbnet en afdeling i København for at være tættere på vores kunder i hovedstadsområdet og tilbyde samme høje kvalitet lokalt.",
     },
     {

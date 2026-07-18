@@ -1,38 +1,6 @@
-export const ALL_DYNAMIC_PAGES_QUERY = `*[_type == "page" && !defined(parent._ref)]{
-  title,
-  "slug": slug.current,
-  menuOrder,
-  "children": *[
-    _type == "page" &&
-    parent._ref == ^._id
-  ] | order(menuOrder asc, title asc){
-    title,
-    "slug": slug.current,
-    menuOrder
-  }
-} | order(menuOrder asc, title asc)`;
-
-export const PAGE_BY_SLUG_QUERY = `*[
-  _type == "page" &&
-  slug.current == $slug &&
-  coalesce(parent->slug.current, "") == coalesce($parentSlug, "")
-][0]{
-  title,
-  "slug": slug.current,
-  menuOrder,
-  _createdAt,
-  _updatedAt,
-  parent->{
-    title,
-    "slug": slug.current
-  },
-  "children": *[_type == "page" && parent._ref == ^._id]
-    | order(menuOrder asc, title asc){
-      title,
-      "slug": slug.current,
-      menuOrder
-    },
-  sections[]{
+// Спільна проєкція секцій сторінки — використовується для сторінок послуг (page)
+// та сторінок проєктів (projectPage), оскільки набір секцій ідентичний.
+const PAGE_SECTIONS_PROJECTION = `sections[]{
     _type,
     _type == "heroSection" => {
       "type": _type,
@@ -203,7 +171,80 @@ export const PAGE_BY_SLUG_QUERY = `*[
       buttonText,
       buttonLink
     }
+  }`;
+
+export const ALL_DYNAMIC_PAGES_QUERY = `*[_type == "page" && !defined(parent._ref)]{
+  title,
+  "slug": slug.current,
+  menuOrder,
+  "children": *[
+    _type == "page" &&
+    parent._ref == ^._id
+  ] | order(menuOrder asc, title asc){
+    title,
+    "slug": slug.current,
+    menuOrder
+  }
+} | order(menuOrder asc, title asc)`;
+
+export const PAGE_BY_SLUG_QUERY = `*[
+  _type == "page" &&
+  slug.current == $slug &&
+  coalesce(parent->slug.current, "") == coalesce($parentSlug, "")
+][0]{
+  title,
+  "slug": slug.current,
+  menuOrder,
+  _createdAt,
+  _updatedAt,
+  parent->{
+    title,
+    "slug": slug.current
   },
+  "children": *[_type == "page" && parent._ref == ^._id]
+    | order(menuOrder asc, title asc){
+      title,
+      "slug": slug.current,
+      menuOrder
+    },
+  ${PAGE_SECTIONS_PROJECTION},
+  seo{
+    metaTitle,
+    metaDescription,
+    keywords,
+    "opengraphImage": opengraphImage{
+      ...,
+      "alt": alt
+    },
+    "schemaJsonUrl": schemaJson.asset->url
+  }
+}`;
+
+// ---- Проєкти (projectPage) ----
+// Проєкти — це сторінки-конструктори із секцій (як послуги), без підсторінок.
+// Каталог /projects працює як блог: картки формуються з першої heroSection.
+
+export const ALL_PROJECT_PAGES_QUERY = `*[_type == "projectPage"] | order(menuOrder asc, _createdAt desc){
+  "heroTitle": coalesce(sections[_type == "heroSection"][0].title, title),
+  "heroDescription": sections[_type == "heroSection"][0].description,
+  "heroMobileImage": sections[_type == "heroSection"][0].mobileImage{
+    ...,
+    "alt": alt
+  },
+  "slug": slug.current,
+  _createdAt
+}`;
+
+export const PROJECT_BY_SLUG_QUERY = `*[
+  _type == "projectPage" &&
+  slug.current == $slug
+][0]{
+  title,
+  "slug": slug.current,
+  menuOrder,
+  _createdAt,
+  _updatedAt,
+  ${PAGE_SECTIONS_PROJECTION},
   seo{
     metaTitle,
     metaDescription,

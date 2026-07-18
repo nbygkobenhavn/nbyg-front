@@ -18,9 +18,10 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // 301: www → non-www (задача SEO №1)
         source: "/:path*",
-        has: [{ type: "host", value: "xn--nbygkbenhavn-zjb.dk" }],
-        destination: "https://www.xn--nbygkbenhavn-zjb.dk/:path*",
+        has: [{ type: "host", value: "www.xn--nbygkbenhavn-zjb.dk" }],
+        destination: "https://xn--nbygkbenhavn-zjb.dk/:path*",
         permanent: true,
       },
     ];

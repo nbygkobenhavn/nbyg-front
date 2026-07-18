@@ -1,5 +1,5 @@
 const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.xn--nbygkbenhavn-zjb.dk";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://xn--nbygkbenhavn-zjb.dk";
 
 interface ArticleSchemaProps {
   headline: string;
@@ -25,15 +25,15 @@ export default function ArticleSchema({
     dateModified: dateModified ?? datePublished,
     author: {
       "@type": "Organization",
-      name: "Nbyg",
-      url: BASE_URL,
+      name: "Nbyg København",
+      url: `${BASE_URL}/om-os`,
     },
     publisher: {
       "@type": "Organization",
-      name: "Nbyg",
+      name: "Nbyg København",
       logo: {
         "@type": "ImageObject",
-        url: `${BASE_URL}/images/logo.png`,
+        url: `${BASE_URL}/images/header/logo.jpg`,
       },
     },
     ...(imageUrl && {
