@@ -1,9 +1,12 @@
 "use client";
 import { SwiperSlide } from "swiper/react";
 import SwiperWrapper from "../../swiper/SwiperWrapper";
-import { SanityImage } from "@/types/page";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
-import Image from "next/image";
+import { SanityImage } from "@/components/shared/SanityImage";
+import {
+  resolveImageAlt,
+  resolveImageSrc,
+  type ImageSource,
+} from "@/utils/resolveImageSrc";
 import { useState, useMemo, useRef } from "react";
 import AppLightbox from "@/components/shared/lightbox/AppLightbox";
 import { galleryItemsToLightboxImages } from "@/components/shared/lightbox/galleryItemsToLightboxImages";
@@ -14,7 +17,7 @@ import type { Swiper as SwiperType } from "swiper";
 interface GallerySliderProps {
   items: Array<{
     _key?: string;
-    image?: SanityImage | { link: string; alt: string };
+    image?: ImageSource;
   }>;
   uniqueKey?: string;
 }
@@ -123,17 +126,12 @@ export default function GallerySlider({
                   className="relative h-full w-full min-w-0 overflow-hidden rounded-[14px] cursor-pointer"
                   onClick={(e) => handleImageClick(e, clickedLightboxIndex)}
                 >
-                  <Image
-                    src={
-                      typeof item.image === "object" && "link" in item.image
-                        ? item.image.link
-                        : urlForSanityImage(item.image).url()
-                    }
-                    alt={
-                      typeof item.image === "object" && "link" in item.image
-                        ? item.image.alt || `Galleri billede ${idx + 1}`
-                        : item.image?.alt || `Galleri billede ${idx + 1}`
-                    }
+                  <SanityImage
+                    src={resolveImageSrc(item.image)}
+                    alt={resolveImageAlt(
+                      item.image,
+                      `Galleri billede ${idx + 1}`,
+                    )}
                     fill
                     className="object-cover rounded-[14px]"
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 727px"

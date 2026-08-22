@@ -1,11 +1,11 @@
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
-import { SanityImage } from "@/types/page";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { urlFor } from "@/lib/sanity/image";
+import type { SanityImage as SanityImageType } from "@/types/page";
 
 interface MaterialCardProps {
   slide: {
     _key?: string;
-    image: SanityImage;
+    image: SanityImageType;
     title: string;
     description: string;
   };
@@ -32,10 +32,11 @@ export default function MaterialsCard({ slide }: MaterialCardProps) {
         className="relative w-full md:w-[320px] h-60 md:h-auto md:min-h-full rounded-[8px] 
       overflow-hidden shrink-0"
       >
-        <Image
-          src={urlForSanityImage(image).url()}
+        <SanityImage
+          src={urlFor(image).url()}
           alt={image?.alt || title}
           fill
+          sizes="(max-width: 768px) 100vw, 320px"
           className="object-cover"
         />
       </div>

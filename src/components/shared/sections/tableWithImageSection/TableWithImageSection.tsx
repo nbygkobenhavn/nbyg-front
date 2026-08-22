@@ -1,8 +1,8 @@
 import type { TableWithImageSection as TableWithImageSectionData } from "@/types/page";
 import Container from "../../container/Container";
 import SectionTitle from "../../titles/SectionTitle";
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { urlFor } from "@/lib/sanity/image";
 import TableList from "../tableSection/TableList";
 import * as motion from "motion/react-client";
 import { fadeInAnimation } from "@/utils/animationVariants";
@@ -50,10 +50,11 @@ const TableWithImageSection = (_props: TableWithImageSectionProps) => {
               variants={fadeInAnimation({ scale: 0.85, delay: 0.4, x: 30 })}
               className="relative w-full xl:w-1/2 h-[300px] xl:h-auto rounded-[12px] overflow-hidden shrink-0"
             >
-              <Image
-                src={urlForSanityImage(image).url()}
+              <SanityImage
+                src={urlFor(image).url()}
                 fill
                 alt={image?.alt || "Billede"}
+                sizes="(max-width: 1280px) 100vw, 50vw"
                 className="object-cover"
               />
             </motion.div>

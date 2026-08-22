@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageSeo } from "@/types/page";
 import { getCanonicalUrl } from "./getCanonicalUrl";
-import { urlForSanityImage } from "./getUrlForSanityImage";
+import { urlFor } from "@/lib/sanity/image";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "";
 
@@ -49,18 +49,17 @@ export function getMetadataFromSanity({
     }
   }
 
-  // Обробляємо Open Graph зображення
-  let ogImageUrl: string | undefined;
-  if (seo?.opengraphImage) {
-    const ogImage = urlForSanityImage(seo.opengraphImage)
-      .width(1200)
-      .height(630)
-      .fit("fill")
-      .url();
-    ogImageUrl = ogImage;
-  } else {
-    ogImageUrl = `${SITE_URL}/opengraph-image.jpg`;
-  }
+  // Обробляємо Open Graph зображення.
+  // opengraphImage може існувати лише з alt (без asset) — тоді urlFor падає.
+  const defaultOgImageUrl = `${SITE_URL}/opengraph-image.jpg`;
+  const ogImageUrl =
+    seo?.opengraphImage?.asset?._ref
+      ? urlFor(seo.opengraphImage)
+          .width(1200)
+          .height(630)
+          .fit("fill")
+          .url()
+      : defaultOgImageUrl;
 
   // Формуємо metadata об'єкт
   const metadata: Metadata = {

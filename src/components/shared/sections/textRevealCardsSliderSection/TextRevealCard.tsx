@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { SanityImage } from "@/types/page";
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import {
+  resolveImageAlt,
+  resolveImageSrc,
+  type ImageSource,
+} from "@/utils/resolveImageSrc";
 import ArrowIcon from "../../icons/ArrowIcon";
 import Link from "next/link";
 
@@ -12,7 +15,7 @@ interface TextRevealCardProps {
     _key?: string;
     title: string;
     description: string;
-    image: SanityImage | { link: string; alt: string };
+    image: ImageSource;
     link?: string;
   };
 }
@@ -25,18 +28,11 @@ export default function TextRevealCard({ slide }: TextRevealCardProps) {
 
   return (
     <div className="relative flex flex-col justify-end h-[399px] rounded-[8px]">
-      <Image
-        src={
-          typeof image === "object" && "link" in image
-            ? image.link
-            : urlForSanityImage(image).url()
-        }
-        alt={
-          typeof image === "object" && "link" in image
-            ? image.alt || title
-            : image?.alt || title
-        }
+      <SanityImage
+        src={resolveImageSrc(image)}
+        alt={resolveImageAlt(image, title)}
         fill
+        sizes="(max-width: 768px) 85vw, 400px"
         className="-z-10 object-cover rounded-[8px]"
       />
       {link ? (
