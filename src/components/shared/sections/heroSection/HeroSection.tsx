@@ -3,8 +3,8 @@ import { fadeInAnimation, fadeInAnimationSafe, headerVariants } from "@/utils/an
 import type { HeroSection as HeroSectionData } from "@/types/page";
 import Container from "../../container/Container";
 import PageTitle from "../../titles/PageTitle";
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { urlFor } from "@/lib/sanity/image";
 import MainButton from "../../buttons/MainButton";
 import ShevronIcon from "../../icons/ShevronIcon";
 import Link from "next/link";
@@ -46,22 +46,20 @@ const HeroSection = (_props: HeroSectionProps) => {
       `,
           }}
         />
-        <Image
-          src={urlForSanityImage(mobileImage).url()}
+        <SanityImage
+          src={urlFor(mobileImage).url()}
           alt={mobileImage?.alt || "Hero billede"}
           fill
           sizes="100vw"
           priority
-          fetchPriority="high"
           className="md:hidden -z-20 object-cover object-top"
         />
-        <Image
-          src={urlForSanityImage(desktopImage).url()}
+        <SanityImage
+          src={urlFor(desktopImage).url()}
           alt={desktopImage?.alt || "Hero billede"}
           fill
           sizes="100vw"
           priority
-          fetchPriority="high"
           className="hidden md:block -z-20 object-cover object-top"
         />
         <Container className="pt-[146px] lg:pt-[179px] pb-7 lg:pb-20">

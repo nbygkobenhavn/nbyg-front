@@ -1,8 +1,8 @@
 import type { LargeTableSection as LargeTableSectionData } from "@/types/page";
 import Container from "../../container/Container";
 import SectionTitle from "../../titles/SectionTitle";
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { urlFor } from "@/lib/sanity/image";
 import TableList from "../tableSection/TableList";
 import * as motion from "motion/react-client";
 import { fadeInAnimation } from "@/utils/animationVariants";
@@ -104,10 +104,11 @@ const LargeTableSection = (_props: LargeTableSectionProps) => {
             variants={fadeInAnimation({ scale: 0.85, delay: 0.5, x: 30 })}
             className="relative w-full lg:max-w-[467px] xl:max-w-[567px] h-50 lg:h-auto rounded-[8px] overflow-hidden shrink-0"
           >
-            <Image
-              src={urlForSanityImage(image).url()}
+            <SanityImage
+              src={urlFor(image).url()}
               fill
               alt={image?.alt || "Billede"}
+              sizes="(max-width: 1024px) 100vw, 567px"
               className="object-cover"
             />
           </motion.div>

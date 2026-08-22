@@ -2,18 +2,25 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
+    formats: ["image/webp"],
+    // Quality values passed via the `quality` prop must be allow-listed here.
+    qualities: [75, 80, 85, 90],
+    // Sanity CDN photography renders through `SanityImage` (plain `<img>` +
+    // Sanity's own resize API), never through `/_next/image`. Remaining
+    // `next/image` usage is local/static assets only.
+  },
+  async headers() {
+    return [
       {
-        protocol: "http",
-        hostname: "cdn.sanity.io",
-        pathname: "**",
+        source: "/:path*",
+        headers: [
+          {
+            key: "Link",
+            value: "<https://cdn.sanity.io>; rel=preconnect; crossorigin",
+          },
+        ],
       },
-      {
-        protocol: "https",
-        hostname: "cdn.sanity.io",
-        pathname: "**",
-      },
-    ],
+    ];
   },
   // Канонікалізація хоста (www → non-www, задача SEO №1) виконується на рівні
   // хостинг-платформи: встановіть основним доменом xn--nbygkbenhavn-zjb.dk (non-www),

@@ -1,7 +1,7 @@
 import type { PortableTextComponents } from "@portabletext/react";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { urlFor } from "@/lib/sanity/image";
 import Link from "next/link";
 import MainButton from "@/components/shared/buttons/MainButton";
 import type {
@@ -9,7 +9,7 @@ import type {
   BlogPostContentImage,
   BlogPostContentTable,
 } from "@/types/blogPost";
-import type { SanityImage } from "@/types/page";
+import type { SanityImage as SanityImageType } from "@/types/page";
 import GallerySlider from "@/components/shared/sections/gallerySection/GallerySlider";
 import React from "react";
 import * as motion from "motion/react-client";
@@ -19,7 +19,7 @@ const BLOG_CONTENT_IMAGE_SIZES =
   "(max-width: 1024px) 100vw, min(896px, calc(100vw - 8rem))";
 
 function blogContentImageUrl(image: BlogPostContentImage) {
-  return urlForSanityImage(image).width(1920).fit("max").auto("format").url();
+  return urlFor(image).width(1920).fit("max").auto("format").url();
 }
 
 export const getBlogPortableTextComponents = (
@@ -188,7 +188,7 @@ export const getBlogPortableTextComponents = (
           variants={fadeInAnimation({ scale: 0.95, y: 20, delay: 0.2 })}
           className="m-0 my-4 w-full min-w-0 max-w-none overflow-hidden rounded-[12px]"
         >
-          <Image
+          <SanityImage
             src={imageUrl}
             alt={alt}
             width={w}
@@ -209,7 +209,7 @@ export const getBlogPortableTextComponents = (
         .filter((item) => item.image?.asset)
         .map((item) => ({
           _key: item._key,
-          image: item.image as SanityImage,
+          image: item.image as SanityImageType,
         }));
 
       if (sliderItems.length === 0) return null;

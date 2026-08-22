@@ -1,10 +1,10 @@
 import Container from "@/components/shared/container/Container";
 import PageTitle from "@/components/shared/titles/PageTitle";
-import Image from "next/image";
+import { SanityImage } from "@/components/shared/SanityImage";
 import * as motion from "motion/react-client";
 import { fadeInAnimation, headerVariants } from "@/utils/animationVariants";
 import { BlogPost } from "@/types/blogPost";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { urlFor } from "@/lib/sanity/image";
 
 interface HeroProps {
   article: BlogPost;
@@ -23,23 +23,21 @@ export default function Hero({ article }: HeroProps) {
       variants={headerVariants}
       className="relative rounded-b-[18px] overflow-hidden"
     >
-      <Image
-        src={urlForSanityImage(heroMobileImage).url()}
+      <SanityImage
+        src={urlFor(heroMobileImage).url()}
         fill
         alt={heroMobileImage?.alt || "Blog indlæg hero billede"}
         sizes="100vw"
         className="md:hidden object-cover -z-20"
         priority
-        fetchPriority="high"
       />
-      <Image
-        src={urlForSanityImage(heroDesktopImage).url()}
+      <SanityImage
+        src={urlFor(heroDesktopImage).url()}
         fill
         alt={heroDesktopImage?.alt || "Blog indlæg hero billede"}
         sizes="100vw"
         className="hidden md:block object-cover -z-20"
         priority
-        fetchPriority="high"
       />
       <div
         className="absolute inset-0 -z-10"

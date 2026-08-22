@@ -1,9 +1,14 @@
 import type { SanityImage } from "@/types/page";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { urlFor } from "@/lib/sanity/image";
+import {
+  resolveImageAlt,
+  resolveImageSrc,
+  type ImageSource,
+} from "@/utils/resolveImageSrc";
 
 export type LightboxGalleryItem = {
   _key?: string;
-  image?: SanityImage | { link: string; alt?: string };
+  image?: ImageSource;
 };
 
 export type LightboxImage = {
@@ -24,7 +29,15 @@ export function galleryItemsToLightboxImages(
     if (typeof im === "object" && "link" in im && im.link) {
       out.push({
         src: im.link,
-        alt: im.alt ?? `Galleri billede ${out.length + 1}`,
+        alt: resolveImageAlt(im, `Galleri billede ${out.length + 1}`),
+      });
+      continue;
+    }
+
+    if (typeof im === "string") {
+      out.push({
+        src: resolveImageSrc(im),
+        alt: `Galleri billede ${out.length + 1}`,
       });
       continue;
     }
@@ -33,8 +46,8 @@ export function galleryItemsToLightboxImages(
     if (!si?.asset) continue;
 
     out.push({
-      src: urlForSanityImage(si).width(2400).fit("max").auto("format").url(),
-      alt: si.alt ?? `Galleri billede ${out.length + 1}`,
+      src: urlFor(si).width(2400).fit("max").auto("format").url(),
+      alt: resolveImageAlt(si, `Galleri billede ${out.length + 1}`),
     });
   }
 

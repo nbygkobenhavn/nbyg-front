@@ -1,6 +1,6 @@
 import { BlogPostPreview } from "@/types/blogPost";
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { urlFor } from "@/lib/sanity/image";
 import Link from "next/link";
 
 interface BlogCardProps {
@@ -31,8 +31,8 @@ export default function BlogCard({ post, hrefBase = "/blog" }: BlogCardProps) {
         }}
       />
       <div className="relative w-full h-45 rounded-[8px] overflow-hidden">
-        <Image
-          src={urlForSanityImage(heroMobileImage).url()}
+        <SanityImage
+          src={urlFor(heroMobileImage).url()}
           fill
           alt={heroMobileImage?.alt || "Blog indlæg billede"}
           sizes="(max-width: 440px) 100vw, 328px"

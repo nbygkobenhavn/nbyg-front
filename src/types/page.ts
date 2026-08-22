@@ -21,7 +21,7 @@ export type SanityImageHotspot = {
 
 export type SanityImage = {
   _type: "image";
-  asset: SanityReference;
+  asset?: SanityReference;
   crop?: SanityImageCrop;
   hotspot?: SanityImageHotspot;
   alt?: string;

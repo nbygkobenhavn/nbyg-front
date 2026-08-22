@@ -2,7 +2,8 @@ import type { CtaSection as CtaSectionData } from "@/types/page";
 import Container from "../../container/Container";
 import SectionTitle from "../../titles/SectionTitle";
 import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { resolveImageAlt, resolveImageSrc } from "@/utils/resolveImageSrc";
 import MainButton from "../../buttons/MainButton";
 import DecorativeEllipsis from "../../decorativeEllipsis/DecorativeEllipsis";
 import * as motion from "motion/react-client";
@@ -91,18 +92,11 @@ const CtaSection = (_props: CtaSectionProps) => {
             variants={fadeInAnimation({ scale: 0.85, x: -30, delay: 0.3 })}
             className="relative h-50 md:h-auto md:w-[calc(50%-20px)] xl:w-[calc(50%-54.5px)] rounded-[8px] overflow-hidden"
           >
-            <Image
-              src={
-                typeof image === "string"
-                  ? image
-                  : urlForSanityImage(image).url()
-              }
-              alt={
-                typeof image === "string"
-                  ? "CTA billede"
-                  : image?.alt || "CTA billede"
-              }
+            <SanityImage
+              src={resolveImageSrc(image)}
+              alt={resolveImageAlt(image, "CTA billede")}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
           </motion.div>

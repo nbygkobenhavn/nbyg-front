@@ -3,8 +3,8 @@ import Container from "../../container/Container";
 import SectionTitle from "../../titles/SectionTitle";
 import { PortableText } from "@portabletext/react";
 import { portableTextComponents } from "../../portableTextComponents/PortableTextComponents";
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { resolveImageAlt, resolveImageSrc } from "@/utils/resolveImageSrc";
 import DecorativeEllipsis from "../../decorativeEllipsis/DecorativeEllipsis";
 import MainButton from "../../buttons/MainButton";
 import Link from "next/link";
@@ -118,21 +118,13 @@ const ImageTextButtonSection = (_props: ImageTextButtonSectionProps) => {
               variants={fadeInAnimation({ scale: 0.85, delay: 0.5, x: 30 })}
               className="relative w-full md:w-[43.6%] h-[300px] md:h-auto rounded-[12px] overflow-hidden shrink-0"
             >
-              {typeof image === "string" ? (
-                <Image
-                  src={image}
-                  fill
-                  alt={title || "Billede"}
-                  className="object-cover"
-                />
-              ) : (
-                <Image
-                  src={urlForSanityImage(image).url()}
-                  fill
-                  alt={image?.alt || "Billede"}
-                  className="object-cover"
-                />
-              )}
+              <SanityImage
+                src={resolveImageSrc(image)}
+                fill
+                alt={resolveImageAlt(image, title || "Billede")}
+                sizes="(max-width: 768px) 100vw, 44vw"
+                className="object-cover"
+              />
             </motion.div>
           ) : null}
           {buttonText && buttonHref ? (

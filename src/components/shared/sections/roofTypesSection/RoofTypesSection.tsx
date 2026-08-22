@@ -3,8 +3,8 @@ import Container from "../../container/Container";
 import SectionTitle from "../../titles/SectionTitle";
 import { PortableText } from "@portabletext/react";
 import { portableTextComponents } from "../../portableTextComponents/PortableTextComponents";
-import Image from "next/image";
-import { urlForSanityImage } from "@/utils/getUrlForSanityImage";
+import { SanityImage } from "@/components/shared/SanityImage";
+import { urlFor } from "@/lib/sanity/image";
 import DecorativeEllipsis from "../../decorativeEllipsis/DecorativeEllipsis";
 import * as motion from "motion/react-client";
 import { fadeInAnimation } from "@/utils/animationVariants";
@@ -126,10 +126,11 @@ const RoofTypesSection = (_props: RoofTypesSectionProps) => {
               variants={fadeInAnimation({ scale: 0.85, delay: 0.4, x: 30 })}
               className="relative w-full lg:w-1/2 h-60 lg:h-auto rounded-[8px] overflow-hidden shrink-0"
             >
-              <Image
-                src={urlForSanityImage(image).url()}
+              <SanityImage
+                src={urlFor(image).url()}
                 fill
                 alt={image?.alt || "Tagtyper"}
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </motion.div>
