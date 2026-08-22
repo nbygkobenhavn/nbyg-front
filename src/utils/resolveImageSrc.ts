@@ -8,7 +8,7 @@ export type ImageSource =
 
 export function resolveImageSrc(image: ImageSource): string {
   if (typeof image === "string") return image;
-  if ("link" in image && typeof image.link === "string") return image.link;
+  if ("link" in image) return image.link;
   if (!image.asset?._ref) return "";
   return urlFor(image).url();
 }
