@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   try {
     // Перевірка секретного ключа для безпеки
     const secret = req.nextUrl.searchParams.get("secret");
-    if (secret !== process.env.REVALIDATE_SECRET) {
+    if (!process.env.REVALIDATE_SECRET || secret !== process.env.REVALIDATE_SECRET) {
       return NextResponse.json(
         { message: "Invalid secret" },
         { status: 401 }
@@ -83,10 +83,19 @@ export async function POST(req: NextRequest) {
       pathsToRevalidate.push("/");
     }
 
+    // Чекаємо, поки Sanity API CDN віддасть опубліковану версію (useCdn: true),
+    // інакше сторінка перегенерується зі старими даними і застрягне на добу.
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     // Виконуємо ревалідацію всіх шляхів
     pathsToRevalidate.forEach((path) => {
       revalidatePath(path);
     });
+
+    // Сторінки тримають revalidate = 86400 лише як запасний варіант, тож будь-яка
+    // публікація скидає весь сайт: спільні блоки (хедер, футер, налаштування)
+    // і типи, яких немає в мапінгу вище, теж оновлюються одразу.
+    revalidatePath("/", "layout");
 
     return NextResponse.json({
       revalidated: true,
