@@ -1,4 +1,4 @@
-export const revalidate = 60;
+export const revalidate = 86400; // 24 h fallback; content updates come from the Sanity webhook (/api/revalidate)
 
 import "./globals.css";
 import { getDefaultMetadata } from "@/utils/getDefaultMetadata";
